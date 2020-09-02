@@ -1,22 +1,27 @@
 // imports
-const http = require("http");
 const express = require("express");
+const bodyParser = require("body-parser");
 
-// create express request handler
+// create express app
 const app = express();
 
 // adding middleware
-app.use((req, res, next) => {
-  console.log("middleware");
-  next();
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use("/add-message", (req, res, next) => {
+  res.send(
+    "<form action='/message' method='POST'><input type='text' name='message'/><button type='submit'>send</button></form>"
+  );
 });
 
-app.use((req, res, next) => {
-  res.send("<h1>Hello</h1>");
+app.post("/message", (req, res, next) => {
+  console.log(req.body);
+  res.redirect("/");
 });
 
-// create server
-const server = http.createServer(app);
+app.use("/", (req, res, next) => {
+  res.send("home");
+});
 
 // start server at port 3000
-server.listen(3000);
+app.listen(3000);
