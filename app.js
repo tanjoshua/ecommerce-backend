@@ -2,7 +2,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const mainRoutes = require("./routes/main");
+const adminRoutes = require("./routes/admin");
+const shopRoutes = require("./routes/shop");
 
 // create express app
 const app = express();
@@ -10,7 +11,8 @@ const app = express();
 // adding middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(mainRoutes);
+app.use("/admin", adminRoutes);
+app.use(shopRoutes);
 
 // error page
 app.use((req, res) => {
