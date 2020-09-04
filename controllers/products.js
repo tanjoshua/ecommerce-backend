@@ -13,8 +13,8 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  const products = Product.fetchAll();
-  console.log(products);
-  //__dirnames gives the path to the directory of the file, join gives us the right path based on OS
-  res.render("shop", { products });
+  // pass in a callback function that received the products
+  Product.fetchAll((products) => {
+    res.render("shop", { products });
+  });
 };

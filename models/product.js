@@ -10,7 +10,7 @@ module.exports = class Product {
     products.push(this);
   }
 
-  static fetchAll() {
-    return products;
+  static fetchAll(cb) {
+    return cb(products);
   }
 };
