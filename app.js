@@ -3,7 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 // internal imports
-const adminRoutes = require("./routes/admin").routes;
+const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 
 // create express app
