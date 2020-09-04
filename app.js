@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
-// error page
+// error controller
 app.use((req, res) => {
   res.status(404).send("Page not found");
 });
