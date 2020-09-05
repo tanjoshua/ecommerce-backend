@@ -16,6 +16,7 @@ app.set("views", "views");
 // adding middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// adding middleware for routes
 app.use("/admin", adminRoutes);
 app.use(shopRoutes);
 
