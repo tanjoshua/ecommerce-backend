@@ -10,3 +10,4 @@ As the main purpose of this project was for me to learn how to build a backend s
 2. Use middleware functions in express and understand how they work
 3. Use routers and controllers to handle requests and send responses
 4. Use ejs as a template engine to return html pages
+5. Retrieve dynamic parameters from route

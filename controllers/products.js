@@ -29,8 +29,9 @@ exports.getProducts = (req, res, next) => {
 exports.getProductByID = (req, res, next) => {
   const productID = req.params.productID;
   console.log(productID);
-  Product.getByID(productID, (product) => console.log(product));
-  res.render("product-details");
+  Product.getByID(productID, (product) =>
+    res.render("product-details", { product })
+  );
 };
 
 exports.getCart = (req, res, next) => {
