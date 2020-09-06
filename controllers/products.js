@@ -24,6 +24,12 @@ exports.getProducts = (req, res, next) => {
   });
 };
 
+// get product by id
+exports.getProductByID = (req, res, next) => {
+  const productID = req.params.productID;
+  res.render("product-details");
+};
+
 exports.getCart = (req, res, next) => {
   res.render("cart");
 };

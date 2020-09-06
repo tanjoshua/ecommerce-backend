@@ -11,4 +11,7 @@ router.get("/", productsController.getProducts);
 
 router.get("/cart", productsController.getCart);
 
+// :productID as a dynamic parameter
+router.get("/products/:productID", productsController.getProductByID);
+
 module.exports = router;

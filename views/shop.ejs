@@ -28,8 +28,8 @@
         <div>Price: <%= product.price %></div>
         <div>Description: <%= product.description %></div>
         <div>
-          <a href="/admin/edit-product">Edit</a>
-          <form action="/admin/edit-product" method="GET">
+          <a href="/products/<%= product.id %>">Details</a>
+          <form action="/admin/edit-product/<%= product.id %>" method="GET">
             <button type="submit">Edit</button>
           </form>
           <form action="/admin/delete-product" method="POST">
