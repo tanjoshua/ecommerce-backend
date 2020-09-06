@@ -37,3 +37,10 @@ exports.getProductByID = (req, res, next) => {
 exports.getCart = (req, res, next) => {
   res.render("cart");
 };
+
+// add to cart
+exports.addToCart = (req, res, next) => {
+  const productID = req.body.productID;
+  console.log(productID);
+  res.redirect("/cart");
+};

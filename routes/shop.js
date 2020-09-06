@@ -11,6 +11,9 @@ router.get("/", productsController.getProducts);
 
 router.get("/cart", productsController.getCart);
 
+// add product to cart
+router.post("/cart", productsController.addToCart);
+
 // :productID as a dynamic parameter
 router.get("/products/:productID", productsController.getProductByID);
 
