@@ -27,6 +27,18 @@
         <img src="<%= product.imageURL %>" />
         <div>Price: <%= product.price %></div>
         <div>Description: <%= product.description %></div>
+        <div>
+          <a href="/admin/edit-product">Edit</a>
+          <form action="/admin/edit-product" method="GET">
+            <button type="submit">Edit</button>
+          </form>
+          <form action="/admin/delete-product" method="POST">
+            <button type="submit">Delete</button>
+          </form>
+          <form action="/admin/delete-product" method="POST">
+            <button type="submit">Add to cart</button>
+          </form>
+        </div>
       </div>
       <% } %> <% } else { %>
       <div>No Products Found</div>
