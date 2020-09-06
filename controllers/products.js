@@ -5,6 +5,7 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
+  console.log("request body:");
   console.log(req.body);
   const product = new Product(
     req.body.title,
@@ -27,6 +28,8 @@ exports.getProducts = (req, res, next) => {
 // get product by id
 exports.getProductByID = (req, res, next) => {
   const productID = req.params.productID;
+  console.log(productID);
+  Product.getByID(productID, (product) => console.log(product));
   res.render("product-details");
 };
 
