@@ -41,12 +41,9 @@
           placeholder="price"
           value="<%= editing ? product.price : '' %>"
         />
-        <textarea
-          type="text"
-          name="description"
-          placeholder="description"
-          value="<%= editing ? product.description : '' %>"
-        ></textarea>
+        <textarea type="text" name="description" placeholder="description">
+        <%= editing ? product.description : '' %></textarea
+        >
 
         <button type="submit">
           <%= editing ? 'Edit Product' : 'Add Product' %>
