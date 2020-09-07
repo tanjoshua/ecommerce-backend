@@ -6,12 +6,16 @@ module.exports = class Cart {
     const existingCartItem = cart.cartItems.find((item) => item.id == id);
     if (existingCartItem) {
       existingCartItem.qty += 1;
-      cart.totalPrice += price;
+      cart.totalPrice += +price;
     } else {
       const newCartItem = new CartItem(id, 1);
       cart.cartItems = [...cart.cartItems, newCartItem];
-      cart.totalPrice += price;
+      cart.totalPrice += +price;
     }
+  }
+
+  static fetchCart(cb) {
+    cb(cart);
   }
 };
 

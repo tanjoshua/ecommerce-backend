@@ -19,7 +19,15 @@
     </header>
 
     <main>
-      <div>cart</div>
+      <% if (cart.cartItems.length > 0) { %>
+      <div>Products</div>
+      <% for (let cartItem of cart.cartItems) {%>
+      <div>item</div>
+      <% } %>
+      <div>Total cost of cart: <%= cart.totalPrice %></div>
+      <% } else { %>
+      <div>No Cart Items</div>
+      <%}%>
     </main>
   </body>
 </html>

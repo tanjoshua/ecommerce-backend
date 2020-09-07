@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const Cart = require("../models/cart");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("add-product");
@@ -10,8 +11,8 @@ exports.postAddProduct = (req, res, next) => {
   const product = new Product(
     req.body.title,
     req.body.imageURL,
-    req.body.price,
-    req.body.description
+    req.body.description,
+    req.body.price
   );
   product.save();
 
@@ -35,12 +36,16 @@ exports.getProductByID = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  res.render("cart");
+  Cart.fetchCart((cart) => {
+    res.render("cart", { cart });
+  });
 };
 
 // add to cart
 exports.addToCart = (req, res, next) => {
   const productID = req.body.productID;
-  console.log(productID);
+  Product.getByID(productID, (product) => {
+    Cart.addToCart(productID, product.price);
+  });
   res.redirect("/cart");
 };
