@@ -19,6 +19,7 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const product = new Product(
+    null,
     req.body.title,
     req.body.imageURL,
     req.body.description,
@@ -26,6 +27,18 @@ exports.postAddProduct = (req, res, next) => {
   );
   product.save();
 
+  res.redirect("/");
+};
+
+exports.postEditProduct = (req, res, next) => {
+  const product = new Product(
+    req.body.id,
+    req.body.title,
+    req.body.imageURL,
+    req.body.description,
+    req.body.price
+  );
+  product.save();
   res.redirect("/");
 };
 
