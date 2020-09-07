@@ -2,12 +2,22 @@ const Product = require("../models/product");
 const Cart = require("../models/cart");
 
 exports.getAddProduct = (req, res, next) => {
-  res.render("add-product");
+  res.render("add-product", { pageTitle: "Add product", editing: false });
+};
+
+exports.getEditProduct = (req, res, next) => {
+  const productID = req.params.productID;
+  const edit = req.query.edit;
+  Product.getByID(productID, (product) => {
+    res.render("edit-product", {
+      pageTitle: "Edit Product",
+      editing: edit,
+      product,
+    });
+  });
 };
 
 exports.postAddProduct = (req, res, next) => {
-  console.log("request body:");
-  console.log(req.body);
   const product = new Product(
     req.body.title,
     req.body.imageURL,
