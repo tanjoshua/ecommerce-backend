@@ -1,4 +1,4 @@
-const products = [];
+let products = [];
 let newID = 1;
 
 module.exports = class Product {
@@ -35,5 +35,11 @@ module.exports = class Product {
   static getByID(id, cb) {
     const product = products.find((prod) => prod.id == id);
     cb(product);
+  }
+
+  // delete by ID
+  static deleteByID(id) {
+    products = products.filter((product) => product.id != id);
+    console.log(products);
   }
 };

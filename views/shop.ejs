@@ -38,6 +38,7 @@
           </form>
           <form action="/admin/delete-product" method="POST">
             <button type="submit">Delete</button>
+            <input type="hidden" name="productID" value="<%=product.id%>" />
           </form>
           <form action="/cart" method="POST">
             <button type="submit">Add to cart</button>

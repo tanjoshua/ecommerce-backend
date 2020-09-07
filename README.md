@@ -9,5 +9,7 @@ As the main purpose of this project was for me to learn how to build a backend s
 1. Utilize the Model View Controller (MVC) design pattern
 2. Use middleware functions in express and understand how they work
 3. Use routers and controllers to handle requests and send responses
-4. Use ejs as a template engine to return html pages
-5. Retrieve dynamic parameters from route
+4. Use body parser middleware to extract body from post requests
+5. Use ejs as a template engine to return html pages
+6. Retrieve dynamic parameters from route
+7. Setting and handling query parameters for get requests
