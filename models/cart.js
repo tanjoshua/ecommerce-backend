@@ -14,6 +14,15 @@ module.exports = class Cart {
     }
   }
 
+  static deleteFromCart = (id, price) => {
+    const cartItem = cart.cartItems.find((item) => item.id == id);
+    if (cartItem) {
+      cart.cartItems = cart.cartItems.filter((item) => item.id != id);
+      // adjust total price
+      cart.totalPrice -= +price * cartItem.qty;
+    }
+  };
+
   static fetchCart(cb) {
     cb(cart);
   }

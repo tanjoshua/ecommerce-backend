@@ -1,3 +1,5 @@
+const Cart = require("./cart");
+
 let products = [];
 let newID = 1;
 
@@ -39,7 +41,9 @@ module.exports = class Product {
 
   // delete by ID
   static deleteByID(id) {
+    const product = products.find((product) => product.id == id);
+    // remove from cart
+    Cart.deleteFromCart(id, product.price);
     products = products.filter((product) => product.id != id);
-    console.log(products);
   }
 };
