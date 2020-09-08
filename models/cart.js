@@ -1,3 +1,5 @@
+const Product = require("./product");
+
 const cart = { cartItems: [], totalPrice: 0 };
 
 module.exports = class Cart {
@@ -24,7 +26,7 @@ module.exports = class Cart {
   };
 
   static fetchCart(cb) {
-    cb(cart);
+    cb(cart.cartItems, cart.totalPrice);
   }
 };
 

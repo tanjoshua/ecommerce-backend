@@ -64,8 +64,17 @@ exports.getProductByID = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  Cart.fetchCart((cart) => {
-    res.render("cart", { cart });
+  Cart.fetchCart((cartItems, totalPrice) => {
+    Product.fetchAll((products) => {
+      const allCartItemData = [];
+      for (cartItem of cartItems) {
+        const productData = products.find((item) => item.id == cartItem.id);
+        if (productData) {
+          allCartItemData.push({ cartItemData: cartItem, productData });
+        }
+      }
+      res.render("cart", { cartItems: allCartItemData, totalPrice });
+    });
   });
 };
 

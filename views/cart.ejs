@@ -19,12 +19,17 @@
     </header>
 
     <main>
-      <% if (cart.cartItems.length > 0) { %>
-      <div>Products</div>
-      <% for (let cartItem of cart.cartItems) {%>
-      <div>item</div>
+      <% if (cartItems.length > 0) { %>
+      <h1>Products in cart</h1>
+      <% for (let cartItem of cartItems) {%>
+      <h1><%=cartItem.productData.title%></h1>
+      <div>
+        Price: <%=cartItem.productData.price + ' x ' + cartItem.cartItemData.qty
+        + ' = ' + cartItem.productData.price * cartItem.cartItemData.qty%>
+      </div>
+      <div>Quantity: <%=cartItem.cartItemData.qty%></div>
       <% } %>
-      <div>Total cost of cart: <%= cart.totalPrice %></div>
+      <h1>Total cost of cart: <%= totalPrice %></h1>
       <% } else { %>
       <div>No Cart Items</div>
       <%}%>
