@@ -28,6 +28,19 @@
         + ' = ' + cartItem.productData.price * cartItem.cartItemData.qty%>
       </div>
       <div>Quantity: <%=cartItem.cartItemData.qty%></div>
+      <form action="/cart/delete" method="POST">
+        <button type="submit">Delete</button>
+        <input
+          type="hidden"
+          name="productID"
+          value="<%=cartItem.productData.id%>"
+        />
+        <input
+          type="hidden"
+          name="productPrice"
+          value="<%=cartItem.productData.price%>"
+        />
+      </form>
       <% } %>
       <h1>Total cost of cart: <%= totalPrice %></h1>
       <% } else { %>
