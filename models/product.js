@@ -1,4 +1,5 @@
 const Cart = require("./cart");
+const db = require("../utils/database");
 
 let products = [];
 let newID = 1;
@@ -30,6 +31,7 @@ module.exports = class Product {
 
   // fetch all products and pass it to a callback
   static fetchAll(cb) {
+    db.execute("SELECT * FROM products");
     return cb(products);
   }
 

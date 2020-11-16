@@ -6,9 +6,6 @@ const bodyParser = require("body-parser");
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
 
-// database
-const db = require("./utils/database");
-
 // create express app
 const app = express();
 
