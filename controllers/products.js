@@ -25,9 +25,9 @@ exports.postAddProduct = (req, res, next) => {
     req.body.description,
     req.body.price
   );
-  product.save();
-
-  res.redirect("/");
+  product.save().then(() => {
+    res.redirect("/");
+  });
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -49,18 +49,19 @@ exports.deleteProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   // pass in a callback function that received the products
-  Product.fetchAll((products) => {
-    res.render("shop", { products });
-  });
+  Product.fetchAll()
+    .then(([rows]) => {
+      res.render("shop", { products: rows });
+    })
+    .catch((err) => console.log(err));
 };
 
 // get product by id
 exports.getProductByID = (req, res, next) => {
   const productID = req.params.productID;
-  console.log(productID);
-  Product.getByID(productID, (product) =>
-    res.render("product-details", { product })
-  );
+  Product.getByID(productID).then(([product]) => {
+    res.render("product-details", { product: product[0] });
+  });
 };
 
 exports.getCart = (req, res, next) => {

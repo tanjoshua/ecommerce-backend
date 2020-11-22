@@ -15,30 +15,20 @@ module.exports = class Product {
 
   // function to save product
   save() {
-    if (this.id) {
-      //replace
-      const productIndex = products.findIndex(
-        (product) => product.id == this.id
-      );
-      products[productIndex] = this;
-    } else {
-      // save new product
-      this.id = newID;
-      newID++;
-      products.push(this);
-    }
+    return db.execute(
+      "INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)",
+      [this.title, this.price, this.imageURL, this.description]
+    );
   }
 
   // fetch all products and pass it to a callback
-  static fetchAll(cb) {
-    db.execute("SELECT * FROM products");
-    return cb(products);
+  static fetchAll() {
+    return db.execute("SELECT * FROM products");
   }
 
   // get a product by id
   static getByID(id, cb) {
-    const product = products.find((prod) => prod.id == id);
-    cb(product);
+    reutrn db.execute("SELECT * FROM products WHERE products.id = ?", [id]);
   }
 
   // delete by ID
