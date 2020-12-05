@@ -1,5 +1,5 @@
 const Cart = require("./cart");
-const db = require("../utils/database");
+const getDB = require("../utils/database").getDB;
 
 let products = [];
 let newID = 1;
@@ -15,21 +15,24 @@ module.exports = class Product {
 
   // function to save product
   save() {
-    return db.execute(
-      "INSERT INTO products (title, price, imageUrl, description) VALUES (?, ?, ?, ?)",
-      [this.title, this.price, this.imageURL, this.description]
-    );
+    const db = getDB();
+    return db
+      .collection("products")
+      .insertOne(this)
+      .then((result) => console.log(result));
   }
 
   // fetch all products and pass it to a callback
   static fetchAll() {
-    return db.execute("SELECT * FROM products");
+    const db = getDB();
+    return db
+      .collection("products")
+      .find() // find returns a cursor
+      .toArray();
   }
 
   // get a product by id
-  static getByID(id, cb) {
-    reutrn db.execute("SELECT * FROM products WHERE products.id = ?", [id]);
-  }
+  static getByID(id, cb) {}
 
   // delete by ID
   static deleteByID(id) {

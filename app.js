@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 // internal imports
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-const mongoConnect = require("./utils/database");
+const mongoConnect = require("./utils/database").mongoConnect;
 
 // create express app
 const app = express();
@@ -27,9 +27,8 @@ app.use((req, res) => {
 });
 
 // connect database
-mongoConnect((client) => {
-  console.log(client);
-
+mongoConnect(() => {
   // start server at port 3000
+  console.log("listening");
   app.listen(3000);
 });

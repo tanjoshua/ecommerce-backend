@@ -50,8 +50,8 @@ exports.deleteProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
   // pass in a callback function that received the products
   Product.fetchAll()
-    .then(([rows]) => {
-      res.render("shop", { products: rows });
+    .then((products) => {
+      res.render("shop", { products: products });
     })
     .catch((err) => console.log(err));
 };

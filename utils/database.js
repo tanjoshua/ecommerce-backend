@@ -1,15 +1,24 @@
 const MongoClient = require("mongodb").MongoClient;
 const uri =
-  "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/<dbname>?retryWrites=true&w=majority";
+  "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/shop?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
 
+let _db;
+
 // function to connect
-const mongoConnect = (callback) => {
+const mongoConnect = (cb) => {
   client.connect((err) => {
-    callback(client);
-    client.close();
+    _db = client.db();
+    cb();
+    //client.close();
   });
 };
 
+// function to get db
+const getDB = () => {
+  if (_db) return _db;
+};
+
 //export connect funciton
-module.exports = mongoConnect;
+exports.mongoConnect = mongoConnect;
+exports.getDB = getDB;
