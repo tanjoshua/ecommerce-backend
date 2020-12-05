@@ -1,10 +1,15 @@
-const mysql = require("mysql2");
+const MongoClient = require("mongodb").MongoClient;
+const uri =
+  "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/<dbname>?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
 
-const pool = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  database: "node-complete",
-  password: "brodin",
-});
+// function to connect
+const mongoConnect = (callback) => {
+  client.connect((err) => {
+    callback(client);
+    client.close();
+  });
+};
 
-module.exports = pool.promise();
+//export connect funciton
+module.exports = mongoConnect;

@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 // internal imports
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
+const mongoConnect = require("./utils/database");
 
 // create express app
 const app = express();
@@ -25,5 +26,10 @@ app.use((req, res) => {
   res.status(404).send("Page not found");
 });
 
-// start server at port 3000
-app.listen(3000);
+// connect database
+mongoConnect((client) => {
+  console.log(client);
+
+  // start server at port 3000
+  app.listen(3000);
+});
