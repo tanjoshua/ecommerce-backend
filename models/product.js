@@ -1,5 +1,6 @@
 const Cart = require("./cart");
 const getDB = require("../utils/database").getDB;
+const mdb = require("mongodb");
 
 let products = [];
 let newID = 1;
@@ -32,7 +33,13 @@ module.exports = class Product {
   }
 
   // get a product by id
-  static getByID(id, cb) {}
+  static getByID(prodID) {
+    const db = getDB();
+    return db
+      .collection("products")
+      .find({ _id: new mdb.ObjectID(prodID) })
+      .next();
+  }
 
   // delete by ID
   static deleteByID(id) {

@@ -59,8 +59,8 @@ exports.getProducts = (req, res, next) => {
 // get product by id
 exports.getProductByID = (req, res, next) => {
   const productID = req.params.productID;
-  Product.getByID(productID).then(([product]) => {
-    res.render("product-details", { product: product[0] });
+  Product.getByID(productID).then((product) => {
+    res.render("product-details", { product });
   });
 };
 
