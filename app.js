@@ -29,6 +29,5 @@ app.use((req, res) => {
 // connect database
 mongoConnect(() => {
   // start server at port 3000
-  console.log("listening");
   app.listen(3000);
 });

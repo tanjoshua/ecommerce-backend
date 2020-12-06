@@ -15,7 +15,7 @@
         <div>Description: <%= product.description %></div>
         <div>
           <form
-            action="/admin/edit-product/<%= product.id %>?edit=true"
+            action="/admin/edit-product/<%= product._id %>?edit=true"
             method="GET"
           >
             <button type="submit">Edit</button>
@@ -23,11 +23,11 @@
           </form>
           <form action="/admin/delete-product" method="POST">
             <button type="submit">Delete</button>
-            <input type="hidden" name="productID" value="<%=product.id%>" />
+            <input type="hidden" name="productID" value="<%=product._id%>" />
           </form>
           <form action="/cart" method="POST">
             <button type="submit">Add to cart</button>
-            <input type="hidden" name="productID" value="<%=product.id%>"/>
+            <input type="hidden" name="productID" value="<%=product._id%>"/>
           </form>
     </main>
   </body>

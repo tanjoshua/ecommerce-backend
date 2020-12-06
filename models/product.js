@@ -11,7 +11,7 @@ module.exports = class Product {
     this.imageURL = imageURL;
     this.description = description;
     this.price = price;
-    this._id = id;
+    if (id) this._id = new mdb.ObjectID(id);
   }
 
   // function to save product
@@ -20,12 +20,9 @@ module.exports = class Product {
     if (this._id) {
       return db
         .collection("products")
-        .updateOne({ _id: new mdb.ObjectID(this._id) }, { $set: this });
+        .updateOne({ _id: this._id }, { $set: this });
     }
-    return db
-      .collection("products")
-      .insertOne(this)
-      .then((result) => console.log(result));
+    return db.collection("products").insertOne(this);
   }
 
   // fetch all products and pass it to a callback
@@ -48,9 +45,9 @@ module.exports = class Product {
 
   // delete by ID
   static deleteByID(id) {
-    const product = products.find((product) => product.id == id);
+    const db = getDB();
+    return db.collection("products").deleteOne({ _id: new mdb.ObjectID(id) });
+
     // remove from cart
-    Cart.deleteFromCart(id, product.price);
-    products = products.filter((product) => product.id != id);
   }
 };

@@ -1,7 +1,10 @@
 const MongoClient = require("mongodb").MongoClient;
 const uri =
   "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/shop?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 let _db;
 
@@ -10,7 +13,7 @@ const mongoConnect = (cb) => {
   client.connect((err) => {
     _db = client.db();
     cb();
-    //client.close();
+    // client.close();
   });
 };
 

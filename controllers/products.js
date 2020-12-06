@@ -1,6 +1,5 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
-const mdb = require("mongodb");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("add-product", { pageTitle: "Add product", editing: false });
@@ -38,7 +37,7 @@ exports.postEditProduct = (req, res, next) => {
         req.body.imageURL,
         req.body.description,
         req.body.price,
-        new mdb.ObjectID(req.body.id)
+        req.body.id
       );
       return updatedProduct.save();
     })
@@ -48,8 +47,9 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res, next) => {
-  Product.deleteByID(req.body.productID);
-  res.redirect("/");
+  Product.deleteByID(req.body.productID).then(() => {
+    res.redirect("/");
+  });
 };
 
 exports.getProducts = (req, res, next) => {
