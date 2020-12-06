@@ -6,17 +6,22 @@ let products = [];
 let newID = 1;
 
 module.exports = class Product {
-  constructor(id, title, imageURL, description, price) {
+  constructor(title, imageURL, description, price, id) {
     this.title = title;
     this.imageURL = imageURL;
     this.description = description;
     this.price = price;
-    this.id = id;
+    this._id = id;
   }
 
   // function to save product
   save() {
     const db = getDB();
+    if (this._id) {
+      return db
+        .collection("products")
+        .updateOne({ _id: new mdb.ObjectID(this._id) }, { $set: this });
+    }
     return db
       .collection("products")
       .insertOne(this)

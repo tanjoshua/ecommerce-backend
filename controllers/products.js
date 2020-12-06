@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const Cart = require("../models/cart");
+const mdb = require("mongodb");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("add-product", { pageTitle: "Add product", editing: false });
@@ -8,7 +9,7 @@ exports.getAddProduct = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
   const productID = req.params.productID;
   const edit = req.query.edit;
-  Product.getByID(productID, (product) => {
+  Product.getByID(productID).then((product) => {
     res.render("edit-product", {
       pageTitle: "Edit Product",
       editing: edit,
@@ -19,7 +20,6 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   const product = new Product(
-    null,
     req.body.title,
     req.body.imageURL,
     req.body.description,
@@ -31,15 +31,20 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const product = new Product(
-    req.body.id,
-    req.body.title,
-    req.body.imageURL,
-    req.body.description,
-    req.body.price
-  );
-  product.save();
-  res.redirect("/");
+  Product.getByID(req.body.id)
+    .then((product) => {
+      const updatedProduct = new Product(
+        req.body.title,
+        req.body.imageURL,
+        req.body.description,
+        req.body.price,
+        new mdb.ObjectID(req.body.id)
+      );
+      return updatedProduct.save();
+    })
+    .then(() => {
+      res.redirect("/");
+    });
 };
 
 exports.deleteProduct = (req, res, next) => {
