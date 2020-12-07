@@ -89,10 +89,13 @@ exports.getCart = (req, res, next) => {
 // add to cart
 exports.addToCart = (req, res, next) => {
   const productID = req.body.productID;
-  Product.getByID(productID, (product) => {
-    Cart.addToCart(productID, product.price);
-  });
-  res.redirect("/cart");
+  Product.getByID(productID)
+    .then((product) => {
+      return req.user.addToCart(product);
+    })
+    .then((result) => {
+      res.redirect("/cart");
+    });
 };
 
 exports.deleteFromCart = (req, res, next) => {
