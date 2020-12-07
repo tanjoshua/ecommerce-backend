@@ -6,12 +6,13 @@ let products = [];
 let newID = 1;
 
 module.exports = class Product {
-  constructor(title, imageURL, description, price, id) {
+  constructor(title, imageURL, description, price, id, userID) {
     this.title = title;
     this.imageURL = imageURL;
     this.description = description;
     this.price = price;
     if (id) this._id = new mdb.ObjectID(id);
+    this.userID = userID;
   }
 
   // function to save product
@@ -25,7 +26,7 @@ module.exports = class Product {
     return db.collection("products").insertOne(this);
   }
 
-  // fetch all products and pass it to a callback
+  // fetch all products
   static fetchAll() {
     const db = getDB();
     return db

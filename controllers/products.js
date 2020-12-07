@@ -22,7 +22,9 @@ exports.postAddProduct = (req, res, next) => {
     req.body.title,
     req.body.imageURL,
     req.body.description,
-    req.body.price
+    req.body.price,
+    null,
+    req.user._id
   );
   product.save().then(() => {
     res.redirect("/");
