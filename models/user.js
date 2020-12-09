@@ -5,7 +5,7 @@ class User {
   constructor(username, email, cart, id) {
     this.username = username;
     this.email = email;
-    this.cart = cart; // {items: []}
+    this.cart = cart; // {items: []} cartitem: {productID, quantity}
     this._id = id;
   }
 
@@ -43,6 +43,27 @@ class User {
         { _id: new mdb.ObjectID(this._id) },
         { $set: { cart: updatedCart } }
       );
+  }
+
+  getCart() {
+    const db = getDB();
+    const productIDs = this.cart.items.map((product) => product.productID);
+    return db
+      .collection("products")
+      .find({ _id: { $in: productIDs } })
+      .toArray()
+      .then((products) =>
+        products.map((p) => {
+          return {
+            ...p,
+            quantity: this.cart.items.find(
+              (item) => item.productID.toString() == p._id.toString()
+            ).quantity,
+          };
+        })
+      );
+
+    return this.cart;
   }
 
   static findByID(userID) {
