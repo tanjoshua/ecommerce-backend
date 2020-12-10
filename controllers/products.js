@@ -94,6 +94,7 @@ exports.addToCart = (req, res, next) => {
 };
 
 exports.deleteFromCart = (req, res, next) => {
-  Cart.deleteFromCart(req.body.productID, req.body.productPrice);
-  res.redirect("/cart");
+  req.user.deleteItemFromCart(req.body.productID).then(() => {
+    res.redirect("/cart");
+  });
 };
