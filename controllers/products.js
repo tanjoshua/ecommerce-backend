@@ -1,5 +1,4 @@
 const Product = require("../models/product");
-const Cart = require("../models/cart");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("add-product", { pageTitle: "Add product", editing: false });
