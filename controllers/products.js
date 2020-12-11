@@ -17,6 +17,16 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
+  const product = new Product({
+    title: req.body.title,
+    imageURL: req.body.imageURL,
+    description: req.body.description,
+    price: req.body.price,
+  });
+  product.save().then(() => {
+    res.redirect("/");
+  });
+  /* NATIVE MONGODB DRIVER
   const product = new Product(
     req.body.title,
     req.body.imageURL,
@@ -28,6 +38,7 @@ exports.postAddProduct = (req, res, next) => {
   product.save().then(() => {
     res.redirect("/");
   });
+  */
 };
 
 exports.postEditProduct = (req, res, next) => {
@@ -54,12 +65,16 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  // pass in a callback function that received the products
+  Product.find().then((products) => {
+    res.render("shop", { products });
+  });
+  /* NATIVE MONGODB DRIVER
   Product.fetchAll()
     .then((products) => {
       res.render("shop", { products: products });
     })
     .catch((err) => console.log(err));
+  */
 };
 
 // get product by id

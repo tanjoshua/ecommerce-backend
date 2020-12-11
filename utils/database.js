@@ -1,3 +1,5 @@
+//connection file for mongodb's native driver
+
 const MongoClient = require("mongodb").MongoClient;
 const uri =
   "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/shop?retryWrites=true&w=majority";

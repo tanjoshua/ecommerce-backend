@@ -14,4 +14,5 @@ As the main purpose of this project was for me to learn how to build a backend s
 5. Using ejs as a template engine to return html pages
 6. Extracting dynamic parameters from route
 7. Setting and handling query parameters for get requests
-8. Connection and interaction with a MongoDB database
+8. Connection and interaction with a MongoDB database (native driver)
+9. Using an ODM tool like Mongoose

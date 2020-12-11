@@ -1,8 +1,19 @@
+const mongoose = require("mongoose");
+
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema({
+  title: { type: String, required: true },
+  imageURL: { type: String, required: false },
+  price: { type: Number, required: true },
+  description: { type: String, required: true },
+});
+
+module.exports = mongoose.model("Product", productSchema);
+
+/* CODE FOR MONGODB NATIVE DRIVER
 const getDB = require("../utils/database").getDB;
 const mdb = require("mongodb");
-
-let products = [];
-let newID = 1;
 
 module.exports = class Product {
   constructor(title, imageURL, description, price, id, userID) {
@@ -51,3 +62,4 @@ module.exports = class Product {
     // remove from cart
   }
 };
+*/
