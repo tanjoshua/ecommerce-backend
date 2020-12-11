@@ -16,6 +16,10 @@ router.get("/cart", productsController.getCart);
 router.post("/cart", cartController.addToCart);
 router.post("/cart/delete", cartController.deleteFromCart);
 
+// execute order using cart
+router.post("/order", cartController.postOrder);
+router.get("/orders", cartController.getOrders);
+
 // :productID as a dynamic parameter
 router.get("/products/:productID", productsController.getProductByID);
 

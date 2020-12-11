@@ -27,3 +27,15 @@ exports.deleteFromCart = (req, res, next) => {
     res.redirect("/cart");
   });
 };
+
+exports.postOrder = (req, res, next) => {
+  if (req.user.cart.items.length > 0)
+    req.user.addOrder().then(() => res.redirect("/orders"));
+  else next();
+};
+
+exports.getOrders = (req, res, next) => {
+  req.user.getOrders().then((orders) => {
+    res.render("orders", { orders });
+  });
+};

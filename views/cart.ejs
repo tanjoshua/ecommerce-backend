@@ -14,6 +14,7 @@
           <li><a href="/">Shop</a></li>
           <li><a href="/admin/add-product">Add Product</a></li>
           <li><a href="/cart">Cart</a></li>
+          <li><a href="/orders">Orders</a></li>
         </ul>
       </nav>
     </header>
@@ -34,6 +35,12 @@
       </form>
       <% } %>
       <h1>Total cost of cart: <%= totalPrice %></h1>
+      <hr />
+      <div>
+        <form action="/order" method="POST">
+          <button type="submit" class="btn">Order</button>
+        </form>
+      </div>
       <% } else { %>
       <div>No Cart Items</div>
       <%}%>

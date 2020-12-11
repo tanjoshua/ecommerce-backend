@@ -1,4 +1,3 @@
-const Cart = require("./cart");
 const getDB = require("../utils/database").getDB;
 const mdb = require("mongodb");
 
