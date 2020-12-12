@@ -17,6 +17,30 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.methods.addToCart = function (product) {
+  // check if item already in cart
+  const productIndex = this.cart.items.findIndex(
+    (p) => p.productID.toString() == product._id.toString()
+  );
+
+  // add to quantity or insert new cart item
+  const cartItems = [...this.cart.items];
+  if (productIndex >= 0) {
+    cartItems[productIndex].quantity += 1;
+  } else {
+    cartItems.push({
+      productID: product._id,
+      quantity: 1,
+    });
+  }
+
+  this.cart = {
+    items: cartItems,
+  };
+
+  return this.save();
+};
+
 module.exports = mongoose.model("User", userSchema);
 
 /* MONGODB NATIVE DRIVER

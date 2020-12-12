@@ -23,10 +23,10 @@
       <% if (cartItems.length > 0) { %>
       <h1>Products in cart</h1>
       <% for (let cartItem of cartItems) {%>
-      <h1><%=cartItem.title%></h1>
+      <h1><%=cartItem.productID.title%></h1>
       <div>
-        Price: <%=cartItem.price + ' x ' + cartItem.quantity + ' = ' +
-        cartItem.price * cartItem.quantity%>
+        Price: <%=cartItem.productID.price + ' x ' + cartItem.quantity + ' = ' +
+        cartItem.productID.price * cartItem.quantity%>
       </div>
       <div>Quantity: <%=cartItem.quantity%></div>
       <form action="/cart/delete" method="POST">
