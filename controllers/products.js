@@ -7,6 +7,17 @@ exports.getAddProduct = (req, res, next) => {
 exports.getEditProduct = (req, res, next) => {
   const productID = req.params.productID;
   const edit = req.query.edit;
+  Product.findById(productID).then((product) => {
+    res.render("edit-product", {
+      pageTitle: "Edit Product",
+      editing: edit,
+      product,
+    });
+  });
+
+  /* NATIVE MONGODB DRIVER
+  const productID = req.params.productID;
+  const edit = req.query.edit;
   Product.getByID(productID).then((product) => {
     res.render("edit-product", {
       pageTitle: "Edit Product",
@@ -14,6 +25,7 @@ exports.getEditProduct = (req, res, next) => {
       product,
     });
   });
+  */
 };
 
 exports.postAddProduct = (req, res, next) => {
@@ -42,6 +54,17 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
+  Product.find(req.body.id)
+    .then((product) => {
+      product.title = req.body.title;
+      product.imageURL = req.body.imageURL;
+      product.description = req.body.description;
+      product.price = req.body.price;
+      return product.save();
+    })
+    .then(() => res.redirect("/"));
+
+  /* NATIVE MONGODB DRIVER
   Product.getByID(req.body.id)
     .then((product) => {
       const updatedProduct = new Product(
@@ -56,18 +79,24 @@ exports.postEditProduct = (req, res, next) => {
     .then(() => {
       res.redirect("/");
     });
+    */
 };
 
 exports.deleteProduct = (req, res, next) => {
+  Product.findByIdAndRemove(req.body.productID).then(() => res.redirect("/"));
+
+  /* NATIVE MONGODB DRIVER
   Product.deleteByID(req.body.productID).then(() => {
     res.redirect("/");
   });
+  */
 };
 
 exports.getProducts = (req, res, next) => {
   Product.find().then((products) => {
     res.render("shop", { products });
   });
+
   /* NATIVE MONGODB DRIVER
   Product.fetchAll()
     .then((products) => {
@@ -80,9 +109,16 @@ exports.getProducts = (req, res, next) => {
 // get product by id
 exports.getProductByID = (req, res, next) => {
   const productID = req.params.productID;
+  Product.findById(productID).then((product) =>
+    res.render("product-details", { product })
+  );
+
+  /* NATIVE MONGODB DRIVER 
+  const productID = req.params.productID; 
   Product.getByID(productID).then((product) => {
     res.render("product-details", { product });
   });
+  */
 };
 
 exports.getCart = (req, res, next) => {

@@ -15,4 +15,4 @@ As the main purpose of this project was for me to learn how to build a backend s
 6. Extracting dynamic parameters from route
 7. Setting and handling query parameters for get requests
 8. Connection and interaction with a MongoDB database (native driver)
-9. Using an ODM tool like Mongoose
+9. Connection and interaction with a MongoDB database using an ODM tool like Mongoose

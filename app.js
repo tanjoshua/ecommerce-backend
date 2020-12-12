@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 // internal imports
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
-const User = require("./models/user");
+// const User = require("./models/user");
 
 // const mongoConnect = require("./utils/database").mongoConnect;
 
