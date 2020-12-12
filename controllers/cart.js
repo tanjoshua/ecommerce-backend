@@ -7,7 +7,7 @@ exports.getCart = (req, res, next) => {
     .then((user) => {
       let totalPrice = 0;
       user.cart.items.forEach((item) => {
-        totalPrice += item.price * item.quantity;
+        totalPrice += item.productID.price * item.quantity;
       });
       res.render("cart", { cartItems: user.cart.items, totalPrice });
     });
