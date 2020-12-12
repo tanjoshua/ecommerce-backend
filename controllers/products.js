@@ -34,6 +34,7 @@ exports.postAddProduct = (req, res, next) => {
     imageURL: req.body.imageURL,
     description: req.body.description,
     price: req.body.price,
+    userID: req.user, // mongoose will just pick the id from the user object
   });
   product.save().then(() => {
     res.redirect("/");
@@ -93,9 +94,11 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.find().then((products) => {
-    res.render("shop", { products });
-  });
+  Product.find()
+    // .populate('userID') // find and populate lets you choose what data to get
+    .then((products) => {
+      res.render("shop", { products });
+    });
 
   /* NATIVE MONGODB DRIVER
   Product.fetchAll()
