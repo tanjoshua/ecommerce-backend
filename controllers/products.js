@@ -12,6 +12,7 @@ exports.getEditProduct = (req, res, next) => {
       pageTitle: "Edit Product",
       editing: edit,
       product,
+      loggedIn: req.loggedIn,
     });
   });
 
@@ -113,7 +114,7 @@ exports.getProducts = (req, res, next) => {
 exports.getProductByID = (req, res, next) => {
   const productID = req.params.productID;
   Product.findById(productID).then((product) =>
-    res.render("product-details", { product })
+    res.render("product-details", { product, loggedIn: req.loggedIn })
   );
 
   /* NATIVE MONGODB DRIVER 

@@ -10,7 +10,11 @@ exports.getCart = (req, res, next) => {
       user.cart.items.forEach((item) => {
         totalPrice += item.productID.price * item.quantity;
       });
-      res.render("cart", { cartItems: user.cart.items, totalPrice });
+      res.render("cart", {
+        cartItems: user.cart.items,
+        totalPrice,
+        loggedIn: req.loggedIn,
+      });
     });
 
   /* NATIVE MONGODB DRIVER
@@ -84,7 +88,7 @@ exports.postOrder = (req, res, next) => {
 
 exports.getOrders = (req, res, next) => {
   Order.find({ user: req.user }).then((orders) => {
-    res.render("orders", { orders });
+    res.render("orders", { orders, loggedIn: req.loggedIn });
   });
 
   /* NATIVE MONGODB DRIVER

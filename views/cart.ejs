@@ -8,16 +8,7 @@
   </head>
 
   <body>
-    <header>
-      <nav>
-        <ul>
-          <li><a href="/">Shop</a></li>
-          <li><a href="/admin/add-product">Add Product</a></li>
-          <li><a href="/cart">Cart</a></li>
-          <li><a href="/orders">Orders</a></li>
-        </ul>
-      </nav>
-    </header>
+    <%- include('./navigation.ejs') %>
 
     <main>
       <% if (cartItems.length > 0) { %>
