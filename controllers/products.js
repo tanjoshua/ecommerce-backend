@@ -97,7 +97,7 @@ exports.getProducts = (req, res, next) => {
   Product.find()
     // .populate('userID') // find and populate lets you choose what data to get
     .then((products) => {
-      res.render("shop", { products });
+      res.render("shop", { products, loggedIn: req.loggedIn });
     });
 
   /* NATIVE MONGODB DRIVER
