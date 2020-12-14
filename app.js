@@ -71,17 +71,6 @@ app.use((req, res) => {
 
 // connect database
 mongoose.connect(MONGODB_URI).then((result) => {
-  User.findOne().then((user) => {
-    if (!user) {
-      user = new User({
-        name: "tester",
-        email: "tester@email.com",
-        cart: { items: [] },
-      });
-      user.save();
-    }
-  });
-
   app.listen(3000);
 });
 

@@ -19,3 +19,24 @@ exports.postLogout = (req, res, next) => {
     res.redirect("/");
   });
 };
+
+exports.getSignup = (req, res, next) => {
+  res.render("signup");
+};
+
+exports.postSignup = (req, res, next) => {
+  User.findOne({ email: req.body.email })
+    .then((user) => {
+      if (user) {
+        res.redirect("/signup");
+      } else {
+        const user = new User({
+          email: req.body.email,
+          password: req.body.password,
+          cart: { items: [] },
+        });
+        return user.save();
+      }
+    })
+    .then(() => res.redirect("/"));
+};
