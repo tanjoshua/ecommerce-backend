@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 
 // internal imports
 const adminRoutes = require("./routes/admin");
@@ -14,8 +15,14 @@ const User = require("./models/user");
 // const User = require("./models/user");
 // const mongoConnect = require("./utils/database").mongoConnect;
 
+const MONGODB_URI =
+  "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/shop?retryWrites=true&w=majority";
 // create express app
 const app = express();
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: "sessions",
+});
 
 // set template engine
 app.set("view engine", "ejs");
@@ -24,7 +31,12 @@ app.set("views", "views");
 // adding middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
-  session({ secret: "shopsecret", resave: false, saveUninitialized: false })
+  session({
+    secret: "shopsecret",
+    resave: false,
+    saveUninitialized: false,
+    store,
+  })
 );
 
 /* FIND USER - NATIVE MONGODB DRIVER
@@ -54,24 +66,20 @@ app.use((req, res) => {
 });
 
 // connect database
-mongoose
-  .connect(
-    "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/shop?retryWrites=true&w=majority"
-  )
-  .then((result) => {
-    User.findOne().then((user) => {
-      if (!user) {
-        user = new User({
-          name: "tester",
-          email: "tester@email.com",
-          cart: { items: [] },
-        });
-        user.save();
-      }
-    });
-
-    app.listen(3000);
+mongoose.connect(MONGODB_URI).then((result) => {
+  User.findOne().then((user) => {
+    if (!user) {
+      user = new User({
+        name: "tester",
+        email: "tester@email.com",
+        cart: { items: [] },
+      });
+      user.save();
+    }
   });
+
+  app.listen(3000);
+});
 
 /* native mongodb driver
 mongoConnect(() => {
