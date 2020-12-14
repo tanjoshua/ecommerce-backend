@@ -49,10 +49,14 @@ app.use((req, res, next) => {
 */
 
 app.use((req, res, next) => {
-  User.findById("5fd4621bff9a8750a8fff8d2").then((user) => {
-    req.user = user;
+  if (req.session.user) {
+    User.findById(req.session.user._id).then((user) => {
+      req.user = user;
+      next();
+    });
+  } else {
     next();
-  });
+  }
 });
 
 // adding middleware for routes

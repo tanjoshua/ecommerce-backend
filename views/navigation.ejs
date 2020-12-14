@@ -2,12 +2,19 @@
   <nav>
     <ul>
       <li><a href="/">Shop</a></li>
-      <% if (1) {%>
+      <% if (loggedIn) {%>
       <li><a href="/admin/add-product">Add Product</a></li>
       <li><a href="/cart">Cart</a></li>
       <li><a href="/orders">Orders</a></li>
-      <% } %>
+      <% } %> <% if (!loggedIn) { %>
       <li><a href="/login">Login</a></li>
+      <% } else { %>
+      <li>
+        <form action="/logout" method="post">
+          <button type="submit">Logout</button>
+        </form>
+      </li>
+      <% } %>
     </ul>
   </nav>
 </header>

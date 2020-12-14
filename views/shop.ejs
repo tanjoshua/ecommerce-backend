@@ -25,6 +25,7 @@
             action="/admin/edit-product/<%= product._id %>?edit=true"
             method="GET"
           >
+            <% if (loggedIn) { %>
             <button type="submit">Edit</button>
             <input type="hidden" name="edit" value="true" />
           </form>
@@ -32,10 +33,12 @@
             <button type="submit">Delete</button>
             <input type="hidden" name="productID" value="<%=product._id%>" />
           </form>
+
           <form action="/cart" method="POST">
             <button type="submit">Add to cart</button>
             <input type="hidden" name="productID" value="<%=product._id%>" />
           </form>
+          <% } %>
         </div>
       </div>
       <% } %> <% } else { %>

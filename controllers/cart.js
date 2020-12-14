@@ -13,7 +13,7 @@ exports.getCart = (req, res, next) => {
       res.render("cart", {
         cartItems: user.cart.items,
         totalPrice,
-        loggedIn: req.loggedIn,
+        loggedIn: req.session.loggedIn,
       });
     });
 

@@ -1,8 +1,8 @@
-//connection file for mongodb's native driver
+/* connection file for mongodb's native driver
 
 const MongoClient = require("mongodb").MongoClient;
 const uri =
-  "mongodb+srv://user:brodin@cluster0.mnbla.mongodb.net/shop?retryWrites=true&w=majority";
+  "<MONGODB URI HERE>";
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -27,3 +27,4 @@ const getDB = () => {
 //export connect funciton
 exports.mongoConnect = mongoConnect;
 exports.getDB = getDB;
+*/
