@@ -2,6 +2,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const session = require("express-session");
 
 // internal imports
 const adminRoutes = require("./routes/admin");
@@ -22,6 +23,9 @@ app.set("views", "views");
 
 // adding middleware
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(
+  session({ secret: "shopsecret", resave: false, saveUninitialized: false })
+);
 
 /* FIND USER - NATIVE MONGODB DRIVER
 app.use((req, res, next) => {
