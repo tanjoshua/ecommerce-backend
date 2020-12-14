@@ -27,21 +27,22 @@ exports.getSignup = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-    .then((user) => {
-      if (user) {
-        res.redirect("/signup");
-      } else {
-        return bcrypt.hash(req.body.password, 12);
-      }
-    })
-    .then((hashedPw) => {
-      const user = new User({
-        email: req.body.email,
-        password: hashedPw,
-        cart: { items: [] },
-      });
-      return user.save();
-    })
-    .then(() => res.redirect("/"));
+  User.findOne({ email: req.body.email }).then((user) => {
+    if (user) {
+      res.redirect("/signup");
+    } else {
+      bcrypt
+        .hash(req.body.password, 12)
+        .then((hashedPw) => {
+          const user = new User({
+            name: "dummy",
+            email: req.body.email,
+            password: hashedPw,
+            cart: { items: [] },
+          });
+          return user.save();
+        })
+        .then(() => res.redirect("/"));
+    }
+  });
 };
