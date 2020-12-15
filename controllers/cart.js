@@ -88,7 +88,7 @@ exports.postOrder = (req, res, next) => {
 
 exports.getOrders = (req, res, next) => {
   Order.find({ user: req.user }).then((orders) => {
-    res.render("orders", { orders, loggedIn: req.loggedIn });
+    res.render("orders", { orders, loggedIn: req.session.loggedIn });
   });
 
   /* NATIVE MONGODB DRIVER
