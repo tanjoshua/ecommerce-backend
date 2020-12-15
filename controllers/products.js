@@ -101,7 +101,6 @@ exports.getProducts = (req, res, next) => {
       res.render("shop", {
         products,
         loggedIn: req.session.loggedIn,
-        csrfToken: req.csrfToken(),
       });
     });
 

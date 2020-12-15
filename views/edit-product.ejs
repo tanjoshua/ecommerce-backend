@@ -41,6 +41,7 @@
           name="id"
           value="<%= editing ? product._id : '' %>"
         />
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
         <button type="submit">
           <%= editing ? 'Edit Product' : 'Add Product' %>

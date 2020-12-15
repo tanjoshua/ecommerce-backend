@@ -27,6 +27,7 @@
           name="productID"
           value="<%=cartItem.productID._id%>"
         />
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
       </form>
       <% } %>
       <h1>Total cost of cart: <%= totalPrice %></h1>
@@ -34,6 +35,7 @@
       <div>
         <form action="/order" method="POST">
           <button type="submit" class="btn">Order</button>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
         </form>
       </div>
       <% } else { %>

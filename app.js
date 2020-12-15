@@ -46,6 +46,13 @@ app.use(
 // enable csrf protection after session initialized
 app.use(csrfProtection);
 
+// set csrf token for every view
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.loggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 /* FIND USER - NATIVE MONGODB DRIVER
 app.use((req, res, next) => {
   User.findByID("5fcdf3eaff7e9bfcdbd3f9d7").then((user) => {
