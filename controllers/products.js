@@ -1,7 +1,11 @@
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
-  res.render("add-product", { pageTitle: "Add product", editing: false });
+  res.render("add-product", {
+    pageTitle: "Add product",
+    editing: false,
+    loggedIn: req.session.loggedIn,
+  });
 };
 
 exports.getEditProduct = (req, res, next) => {
