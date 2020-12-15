@@ -2,17 +2,35 @@ const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
 
+// controller names are self explanatory
+
 exports.getLogin = (req, res, next) => {
   res.render("login");
 };
 
 exports.postLogin = (req, res, next) => {
-  User.findById("5fd4621bff9a8750a8fff8d2").then((user) => {
-    req.session.loggedIn = true;
-    req.session.user = user;
-    req.session.save(() => {
-      res.redirect("/");
-    });
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({ email }).then((user) => {
+    if (!user) {
+      // if no user
+      res.redirect("/login");
+    } else {
+      // user found, proceed to authentication
+      bcrypt.compare(password, user.password).then((matches) => {
+        if (matches) {
+          req.session.loggedIn = true;
+          req.session.user = user;
+          req.session.save(() => {
+            // only redirect after done saving
+            res.redirect("/");
+          });
+        } else {
+          // incorrect password
+          res.redirect("/login");
+        }
+      });
+    }
   });
 };
 
