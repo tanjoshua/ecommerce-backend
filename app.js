@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
+const csrf = require("csurf");
 
 // internal imports
 const adminRoutes = require("./routes/admin");
@@ -24,6 +25,9 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
+// csrf protection
+const csrfProtection = csrf();
+
 // set template engine
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -38,6 +42,9 @@ app.use(
     store,
   })
 );
+
+// enable csrf protection after session initialized
+app.use(csrfProtection);
 
 /* FIND USER - NATIVE MONGODB DRIVER
 app.use((req, res, next) => {
