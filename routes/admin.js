@@ -3,17 +3,22 @@ const express = require("express");
 
 // internal imports
 const productsController = require("../controllers/products");
+const checkLoggedIn = require("../middleware/checkLoggedIn");
 
 const router = express.Router();
 
-router.get("/add-product", productsController.getAddProduct);
+router.get("/add-product", checkLoggedIn, productsController.getAddProduct);
 
-router.post("/add-product", productsController.postAddProduct);
+router.post("/add-product", checkLoggedIn, productsController.postAddProduct);
 
-router.get("/edit-product/:productID", productsController.getEditProduct);
+router.get(
+  "/edit-product/:productID",
+  checkLoggedIn,
+  productsController.getEditProduct
+);
 
-router.post("/edit-product", productsController.postEditProduct);
+router.post("/edit-product", checkLoggedIn, productsController.postEditProduct);
 
-router.post("/delete-product", productsController.deleteProduct);
+router.post("/delete-product", checkLoggedIn, productsController.deleteProduct);
 
 module.exports = router;
