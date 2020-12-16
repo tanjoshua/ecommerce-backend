@@ -4,7 +4,6 @@ exports.getAddProduct = (req, res, next) => {
   res.render("add-product", {
     pageTitle: "Add product",
     editing: false,
-    loggedIn: req.session.loggedIn,
   });
 };
 
@@ -16,7 +15,6 @@ exports.getEditProduct = (req, res, next) => {
       pageTitle: "Edit Product",
       editing: edit,
       product,
-      loggedIn: req.session.loggedIn,
     });
   });
 
@@ -104,7 +102,6 @@ exports.getProducts = (req, res, next) => {
     .then((products) => {
       res.render("shop", {
         products,
-        loggedIn: req.session.loggedIn,
       });
     });
 
@@ -121,7 +118,7 @@ exports.getProducts = (req, res, next) => {
 exports.getProductByID = (req, res, next) => {
   const productID = req.params.productID;
   Product.findById(productID).then((product) =>
-    res.render("product-details", { product, loggedIn: req.session.loggedIn })
+    res.render("product-details", { product })
   );
 
   /* NATIVE MONGODB DRIVER 

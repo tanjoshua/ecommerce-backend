@@ -4,27 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Shop</title>
+    <title>Reset</title>
   </head>
 
   <body>
     <%- include('./navigation.ejs') %>
     <main>
-      <form action="/login" method="POST">
+      <form action="/reset" method="POST">
         <div>
           <label for="email">E-Mail</label>
           <input type="email" name="email" id="email" />
         </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" name="password" id="password" />
-        </div>
         <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-        <button type="submit">Login</button>
+        <button type="submit">Reset</button>
       </form>
-      <div>
-        <a href="/reset">Reset Password</a>
-      </div>
     </main>
   </body>
 </html>
