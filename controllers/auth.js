@@ -73,8 +73,8 @@ exports.postSignup = (req, res, next) => {
         })
         .then(() => {
           transporter.sendMail({
-            to: email,
-            from: "noreply@shop.com",
+            to: req.body.email,
+            from: "tan_joshua@outlook.com",
             subject: "Signup successful",
             html: "welcome",
           });
@@ -96,16 +96,56 @@ exports.postReset = (req, res, next) => {
 
     const token = buffer.toString("hex");
     // find user with the email
-    User.findOne({ email: req.body.email }).then((user) => {
-      if (!user) {
-        // if user does not exist
-        res.redirect("/reset");
-      } else {
-        // user exists, send email
-        user.resetToken = token;
-        user.resetTokenExpiration = Date.now() + 3600000; // 1h
-        user.save();
-      }
-    });
+    User.findOne({ email: req.body.email })
+      .then((user) => {
+        if (!user) {
+          // if user does not exist
+          res.redirect("/reset");
+        } else {
+          // user exists, send email
+          user.resetToken = token;
+          user.resetTokenExpiration = Date.now() + 3600000; // 1h
+          return user.save();
+        }
+      })
+      .then(() => {
+        transporter.sendMail({
+          to: req.body.email,
+          from: "tan_joshua@outlook.com",
+          html: `<p>You have requested a password reset </p>
+        <p> Click <a href="http://localhost:3000/reset/${token}">here</a> to set a new password</p>`,
+        });
+      });
+  });
+};
+
+exports.getResetPassword = (req, res, next) => {
+  const token = req.params.token;
+  // find user with token with an unexpired token
+  User.findOne({
+    resetToken: token,
+    resetTokenExpiration: { $gt: Date.now() },
+  }).then((user) => {
+    res.render("reset-password", { userID: user._id.toString(), token });
+  });
+};
+
+exports.postResetPassword = (req, res, next) => {
+  User.findOne({
+    resetToken: req.body.token,
+    resetTokenExpiration: { $gt: Date.now() },
+    _id: req.body.userID,
+  }).then((user) => {
+    bcrypt
+      .hash(req.body.password, 12)
+      .then((hashedPw) => {
+        user.password = hashedPw;
+        user.resetToken = null;
+        user.resetTokenExpiration = null;
+        return user.save;
+      })
+      .then(() => {
+        res.redirect("/login");
+      });
   });
 };
