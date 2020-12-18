@@ -58,15 +58,20 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  Product.find(req.body.id)
-    .then((product) => {
-      product.title = req.body.title;
-      product.imageURL = req.body.imageURL;
-      product.description = req.body.description;
-      product.price = req.body.price;
-      return product.save();
-    })
-    .then(() => res.redirect("/"));
+  Product.find(req.body.id).then((product) => {
+    // check if user allowed to edit
+    if (product.userID.toString() != req.user._id.toString()) {
+      return res.redirect("/");
+    }
+
+    product.title = req.body.title;
+    product.imageURL = req.body.imageURL;
+    product.description = req.body.description;
+    product.price = req.body.price;
+    return product.save().then(() => {
+      res.redirect("/");
+    });
+  });
 
   /* NATIVE MONGODB DRIVER
   Product.getByID(req.body.id)
@@ -87,7 +92,12 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res, next) => {
-  Product.findByIdAndRemove(req.body.productID).then(() => res.redirect("/"));
+  // ensure that product is owned by user
+  Product.deleteOne({ _id: req.body.productID, userID: req.user._id }).then(
+    () => {
+      res.redirect("/");
+    }
+  );
 
   /* NATIVE MONGODB DRIVER
   Product.deleteByID(req.body.productID).then(() => {
