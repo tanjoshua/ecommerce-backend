@@ -21,3 +21,4 @@ Note: api key for sendGrid has been redacted
 10. Using sessions stored in MongoDB for authentication
 11. Route and CSRF protection
 12. Sending emails + password reset
+13. Input validation

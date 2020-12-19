@@ -1,5 +1,5 @@
 const express = require("express");
-const { check } = require("express-validator/check");
+const { body } = require("express-validator");
 
 const authController = require("../controllers/auth");
 
@@ -13,7 +13,20 @@ router.post("/logout", authController.postLogout);
 
 router.get("/signup", authController.getSignup);
 
-router.post("/signup", check("email").isEmail(), authController.postSignup);
+router.post(
+  "/signup",
+  [
+    body("email").isEmail().withMessage("Invalid email address"),
+    body("password", "Invalid password").isLength({ min: 6 }).isAlphanumeric(),
+    body("confirmPassword").custom((value, { req }) => {
+      if (value != req.body.password) {
+        throw new Error("Passwords do not match");
+      }
+      return true;
+    }),
+  ],
+  authController.postSignup
+);
 
 router.get("/reset", authController.getReset);
 
