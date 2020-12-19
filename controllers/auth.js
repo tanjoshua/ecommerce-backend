@@ -61,34 +61,29 @@ exports.postSignup = (req, res, next) => {
   // get validation errors
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    console.log(errors.array()[0].msg);
     return res.status(422).render("signup"); // send error code and rerender page
   }
 
-  User.findOne({ email: req.body.email }).then((user) => {
-    if (user) {
-      res.redirect("/signup");
-    } else {
-      bcrypt
-        .hash(req.body.password, 12)
-        .then((hashedPw) => {
-          const user = new User({
-            email: req.body.email,
-            password: hashedPw,
-            cart: { items: [] },
-          });
-          return user.save();
-        })
-        .then(() => {
-          transporter.sendMail({
-            to: req.body.email,
-            from: "tan_joshua@outlook.com",
-            subject: "Signup successful",
-            html: "welcome",
-          });
-          res.redirect("/login");
-        });
-    }
-  });
+  bcrypt
+    .hash(req.body.password, 12)
+    .then((hashedPw) => {
+      const user = new User({
+        email: req.body.email,
+        password: hashedPw,
+        cart: { items: [] },
+      });
+      return user.save();
+    })
+    .then(() => {
+      transporter.sendMail({
+        to: req.body.email,
+        from: "tan_joshua@outlook.com",
+        subject: "Signup successful",
+        html: "welcome",
+      });
+      res.redirect("/login");
+    });
 };
 
 exports.getReset = (req, res, next) => {
