@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 const crypto = require("crypto");
+const { validationResult } = require("express-validator/check");
 
 const User = require("../models/user");
 
@@ -57,6 +58,12 @@ exports.getSignup = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  // get validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).render("signup"); // send error code and rerender page
+  }
+
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
       res.redirect("/signup");
