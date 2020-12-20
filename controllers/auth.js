@@ -24,6 +24,13 @@ exports.getLogin = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log(errors.array()[0].msg);
+    return res.status(422).render("login"); // send error code and rerender page
+  }
+
   User.findOne({ email }).then((user) => {
     if (!user) {
       // if no user
