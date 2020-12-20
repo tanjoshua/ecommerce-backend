@@ -39,9 +39,14 @@ exports.postAddProduct = (req, res, next) => {
     price: req.body.price,
     userID: req.user, // mongoose will just pick the id from the user object
   });
-  product.save().then(() => {
-    res.redirect("/");
-  });
+  product
+    .save()
+    .then(() => {
+      res.redirect("/");
+    })
+    .catch((err) => {
+      res.status(500).render("errors/500");
+    });
   /* NATIVE MONGODB DRIVER
   const product = new Product(
     req.body.title,

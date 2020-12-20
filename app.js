@@ -64,11 +64,15 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   if (req.session.user) {
-    User.findById(req.session.user._id).then((user) => {
-      req.user = user;
-      res.locals.loggedIn = true;
-      next();
-    });
+    User.findById(req.session.user._id)
+      .then((user) => {
+        req.user = user;
+        res.locals.loggedIn = true;
+        next();
+      })
+      .catch((err) => {
+        throw new Error(err);
+      });
   } else {
     res.locals.loggedIn = false;
     next();
@@ -82,7 +86,7 @@ app.use(authRoutes);
 
 // error controller
 app.use((req, res) => {
-  res.status(404).send("Page not found");
+  res.status(404).render("errors/404");
 });
 
 // connect database
