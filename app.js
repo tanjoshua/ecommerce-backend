@@ -71,7 +71,7 @@ app.use((req, res, next) => {
         next();
       })
       .catch((err) => {
-        throw new Error(err);
+        next(new Error(err)); // use next for errors in async code
       });
   } else {
     res.locals.loggedIn = false;
@@ -87,6 +87,11 @@ app.use(authRoutes);
 // error controller
 app.use((req, res) => {
   res.status(404).render("errors/404");
+});
+
+// handle internal server errors
+app.use((error, req, res, next) => {
+  res.render("errors/500");
 });
 
 // connect database

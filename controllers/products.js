@@ -45,7 +45,9 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect("/");
     })
     .catch((err) => {
-      res.status(500).render("errors/500");
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
   /* NATIVE MONGODB DRIVER
   const product = new Product(
@@ -73,9 +75,16 @@ exports.postEditProduct = (req, res, next) => {
     product.imageURL = req.body.imageURL;
     product.description = req.body.description;
     product.price = req.body.price;
-    return product.save().then(() => {
-      res.redirect("/");
-    });
+    return product
+      .save()
+      .then(() => {
+        res.redirect("/");
+      })
+      .catch((err) => {
+        const error = new Error(err);
+        error.httpStatusCode = 500;
+        return next(error);
+      });
   });
 
   /* NATIVE MONGODB DRIVER
