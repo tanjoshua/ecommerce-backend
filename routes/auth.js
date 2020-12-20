@@ -11,8 +11,11 @@ router.get("/login", authController.getLogin);
 router.post(
   "/login",
   [
-    body("email").isEmail("Invalid email"),
-    body("password", "Invalid password").isLength({ min: 6 }).isAlphanumeric(),
+    body("email").isEmail("Invalid email").normalizeEmail(),
+    body("password", "Invalid password")
+      .isLength({ min: 6 })
+      .isAlphanumeric()
+      .trim(),
   ],
   authController.postLogin
 );
@@ -33,14 +36,20 @@ router.post(
             return Promise.reject("Email already exists");
           }
         });
+      })
+      .normalizeEmail(),
+    body("password", "Invalid password")
+      .isLength({ min: 6 })
+      .isAlphanumeric()
+      .trim(),
+    body("confirmPassword")
+      .trim()
+      .custom((value, { req }) => {
+        if (value != req.body.password) {
+          throw new Error("Passwords do not match");
+        }
+        return true;
       }),
-    body("password", "Invalid password").isLength({ min: 6 }).isAlphanumeric(),
-    body("confirmPassword").custom((value, { req }) => {
-      if (value != req.body.password) {
-        throw new Error("Passwords do not match");
-      }
-      return true;
-    }),
   ],
   authController.postSignup
 );
