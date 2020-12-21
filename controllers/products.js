@@ -77,7 +77,9 @@ exports.postEditProduct = (req, res, next) => {
     }
 
     product.title = req.body.title;
-    product.imageURL = req.body.imageURL;
+    if (req.file) {
+      product.imageURL = req.file.path; // only change pic if file selected
+    }
     product.description = req.body.description;
     product.price = req.body.price;
     return product
