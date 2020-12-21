@@ -33,7 +33,7 @@ const csrfProtection = csrf();
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-// setting up multer file storage
+// setting up multer file storage + filter
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     db(null, "images");
@@ -43,9 +43,21 @@ const fileStorage = multer.diskStorage({
   },
 });
 
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 // adding middleware
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: fileStorage }).single("image")); // receive image field using multer
+app.use(multer({ storage: fileStorage, fileFilter }).single("image")); // receive image field using multer
 app.use(
   session({
     secret: "shopsecret",
