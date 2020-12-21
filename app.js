@@ -91,6 +91,7 @@ app.use((req, res) => {
 
 // handle internal server errors
 app.use((error, req, res, next) => {
+  console.log(error);
   res.render("errors/500");
 });
 

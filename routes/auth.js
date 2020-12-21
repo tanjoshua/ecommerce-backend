@@ -11,7 +11,7 @@ router.get("/login", authController.getLogin);
 router.post(
   "/login",
   [
-    body("email").isEmail("Invalid email").normalizeEmail(),
+    body("email").isEmail().withMessage("Invalid Email").normalizeEmail(),
     body("password", "Invalid password")
       .isLength({ min: 6 })
       .isAlphanumeric()

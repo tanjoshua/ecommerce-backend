@@ -14,6 +14,7 @@
       <form
         action="/admin/<%= editing ? 'edit-product' :'add-product' %>"
         method="POST"
+        enctype="multipart/form-data"
       >
         <input
           type="text"
@@ -21,12 +22,16 @@
           placeholder="title"
           value="<%= editing ? product.title : '' %>"
         />
-        <input
+
+        <label for="image">Image</label>
+        <input type="file" name="image" />
+
+        <!-- <input
           type="text"
           name="imageURL"
           placeholder="image URL"
           value="<%= editing ? product.imageURL : '' %>"
-        />
+        /> -->
         <input
           type="number"
           name="price"

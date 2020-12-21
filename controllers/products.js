@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
-  res.render("add-product", {
+  res.render("edit-product", {
     pageTitle: "Add product",
     editing: false,
   });
