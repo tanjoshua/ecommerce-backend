@@ -34,12 +34,12 @@ exports.getEditProduct = (req, res, next) => {
 exports.postAddProduct = (req, res, next) => {
   // error if no image
   if (!req.file) {
-    res.redirect("/add-product");
+    res.redirect("/admin/add-product");
   }
 
   const product = new Product({
     title: req.body.title,
-    image: req.file.path, // multer stores picture in file
+    imageURL: req.file.path, // multer stores picture in file
     description: req.body.description,
     price: req.body.price,
     userID: req.user, // mongoose will just pick the id from the user object

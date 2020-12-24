@@ -11,7 +11,7 @@
     <%- include('./navigation.ejs') %>
     <main>
       <h1><%= product.title %></h1>
-      <img src="<%= product.imageURL %>" />
+      <img src="/<%= product.imageURL %>" />
       <div>Price: <%= product.price %></div>
       <div>Description: <%= product.description %></div>
       <% if (loggedIn) { %>

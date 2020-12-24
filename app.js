@@ -6,6 +6,7 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const multer = require("multer");
+const path = require("path");
 
 // internal imports
 const adminRoutes = require("./routes/admin");
@@ -36,10 +37,10 @@ app.set("views", "views");
 // setting up multer file storage + filter
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    db(null, "images");
+    cb(null, "images");
   },
   filename: (req, file, cb) => {
-    cb(null, file.filename);
+    cb(null, file.originalname);
   },
 });
 
@@ -58,6 +59,9 @@ const fileFilter = (req, file, cb) => {
 // adding middleware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: fileStorage, fileFilter }).single("image")); // receive image field using multer
+// serving images as static files
+app.use("/images", express.static(path.join(__dirname, "images")));
+// create session
 app.use(
   session({
     secret: "shopsecret",
