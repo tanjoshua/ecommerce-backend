@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const fs = require("fs");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("edit-product", {
@@ -70,7 +71,7 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  Product.find(req.body.id).then((product) => {
+  Product.findById(req.body.id).then((product) => {
     // check if user allowed to edit
     if (product.userID.toString() != req.user._id.toString()) {
       return res.redirect("/");
@@ -78,6 +79,9 @@ exports.postEditProduct = (req, res, next) => {
 
     product.title = req.body.title;
     if (req.file) {
+      fs.unlink(product.imageURL, (err) => {
+        if (err) throw err;
+      }); // delete old file
       product.imageURL = req.file.path; // only change pic if file selected
     }
     product.description = req.body.description;
@@ -113,12 +117,29 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.deleteProduct = (req, res, next) => {
-  // ensure that product is owned by user
-  Product.deleteOne({ _id: req.body.productID, userID: req.user._id }).then(
-    () => {
-      res.redirect("/");
-    }
-  );
+  // find product
+  Product.findById(req.body.productID)
+    .then((product) => {
+      if (!product) {
+        return new Error("product not found");
+      }
+
+      fs.unlink(product.imageURL, (err) => {
+        if (err) {
+          throw err;
+        }
+      }); // delete old file
+
+      // ensure that product is owned by user
+      Product.deleteOne({ _id: req.body.productID, userID: req.user._id }).then(
+        () => {
+          res.redirect("/");
+        }
+      );
+    })
+    .catch((err) => {
+      return next(new Error(err));
+    });
 
   /* NATIVE MONGODB DRIVER
   Product.deleteByID(req.body.productID).then(() => {
