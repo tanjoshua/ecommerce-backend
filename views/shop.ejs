@@ -47,9 +47,9 @@
 
       <% } %>
       <div style="text-align: center">
-        Pages
-        <a href="/?page=1">1</a>
-        <a href="/?page=2">2</a>
+        Pages <% for (let i = 1; i <= pageCount; i++) { %>
+        <a href="/?page=<%= i %>"><%= i %></a>
+        <% } %>
       </div>
       <% } else { %>
       <div>No Products Found</div>

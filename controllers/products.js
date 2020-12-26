@@ -153,14 +153,22 @@ exports.deleteProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   const page = req.query.page; // get page from query
+  let itemCount;
 
   Product.find()
-    .skip((page - 1) * 2)
-    .limit(2) // skip and limit implements pagination
-    // .populate('userID') // find and populate lets you choose what data to get
+    .count()
+    .then((productCount) => {
+      itemCount = productCount;
+      return Product.find()
+        .skip((page - 1) * 2)
+        .limit(2); // skip and limit implements pagination
+      // .populate('userID') // find and populate lets you choose what data to get
+    })
     .then((products) => {
       res.render("shop", {
         products,
+        itemCount,
+        pageCount: Math.ceil(itemCount / 2),
       });
     });
 
