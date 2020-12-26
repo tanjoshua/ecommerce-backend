@@ -34,13 +34,16 @@ exports.getEditProduct = (req, res, next) => {
 
 exports.postAddProduct = (req, res, next) => {
   // error if no image
+  let filePath;
   if (!req.file) {
-    res.redirect("/admin/add-product");
+    filePath = "";
+  } else {
+    filePath = req.file.path;
   }
 
   const product = new Product({
     title: req.body.title,
-    imageURL: req.file.path, // multer stores picture in file
+    imageURL: filePath, // multer stores picture in file
     description: req.body.description,
     price: req.body.price,
     userID: req.user, // mongoose will just pick the id from the user object
@@ -149,7 +152,11 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+  const page = req.query.page; // get page from query
+
   Product.find()
+    .skip((page - 1) * 2)
+    .limit(2) // skip and limit implements pagination
     // .populate('userID') // find and populate lets you choose what data to get
     .then((products) => {
       res.render("shop", {
