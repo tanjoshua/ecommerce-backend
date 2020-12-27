@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const Order = require("../models/order");
+const stripe = require("stripe")("<INSERT KEY>");
 
 exports.getCart = (req, res, next) => {
   req.user
@@ -107,9 +108,29 @@ exports.getCheckout = (req, res, next) => {
       user.cart.items.forEach((item) => {
         totalPrice += item.productID.price * item.quantity;
       });
-      res.render("checkout", {
-        cartItems: user.cart.items,
-        totalPrice,
-      });
+
+      stripe.checkout.sessions
+        .create({
+          payment_method_types: ["card"],
+          line_items: cartItems.map((item) => {
+            return {
+              name: item.productID.title,
+              description: item.productID.description,
+              amount: item.productID.price * 100, // specified in cents
+              currency: "usd",
+              quantity: item.quantity,
+            };
+          }),
+          success_url:
+            req.protocol + "://" + req.get("host") + "/checkout/success",
+          cancel_url: req.protocol + "://" + req.get("host") + "/checkout",
+        })
+        .then((session) => {
+          res.render("checkout", {
+            cartItems: user.cart.items,
+            totalPrice,
+            sessionID: session.id,
+          });
+        });
     });
 };

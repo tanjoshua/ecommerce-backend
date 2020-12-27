@@ -34,9 +34,19 @@
       <hr />
       <div>
         <form action="/order" method="POST">
-          <button type="submit" class="btn">Order</button>
+          <button type="submit" id="order-btn">Order</button>
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
         </form>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+          let stripe = Stripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+          let order = document.getElementById("order-btn");
+          order.addEventListener("click", function () {
+            stripe.redirectToCheckout({
+              sessionID: "<%= sessionID %>",
+            });
+          });
+        </script>
       </div>
       <% } else { %>
       <div>No Items</div>

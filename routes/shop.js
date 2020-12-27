@@ -26,5 +26,6 @@ router.get("/products/:productID", productsController.getProductByID);
 
 // checkout payment
 router.get("/checkout", checkLoggedIn, cartController.getCheckout);
+router.get("/checkout", checkLoggedIn, cartController.postOrder);
 
 module.exports = router;
