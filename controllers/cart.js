@@ -96,3 +96,20 @@ exports.getOrders = (req, res, next) => {
   });
   */
 };
+
+// checkout
+exports.getCheckout = (req, res, next) => {
+  req.user
+    .populate("cart.items.productID")
+    .execPopulate()
+    .then((user) => {
+      let totalPrice = 0;
+      user.cart.items.forEach((item) => {
+        totalPrice += item.productID.price * item.quantity;
+      });
+      res.render("checkout", {
+        cartItems: user.cart.items,
+        totalPrice,
+      });
+    });
+};

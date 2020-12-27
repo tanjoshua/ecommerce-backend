@@ -156,7 +156,7 @@ exports.getProducts = (req, res, next) => {
   let itemCount;
 
   Product.find()
-    .count()
+    .countDocuments()
     .then((productCount) => {
       itemCount = productCount;
       return Product.find()

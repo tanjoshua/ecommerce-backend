@@ -24,4 +24,7 @@ router.get("/orders", checkLoggedIn, cartController.getOrders);
 // :productID as a dynamic parameter
 router.get("/products/:productID", productsController.getProductByID);
 
+// checkout payment
+router.get("/checkout", checkLoggedIn, cartController.getCheckout);
+
 module.exports = router;

@@ -24,3 +24,4 @@ Note: api key for sendGrid has been redacted
 13. Input validation
 14. Throwing errors within controllers and catching them using middleware
 15. Storing image files on the server
+16. Pagination

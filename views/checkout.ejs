@@ -12,7 +12,7 @@
 
     <main>
       <% if (cartItems.length > 0) { %>
-      <h1>Products in cart</h1>
+      <h1>Order preview</h1>
       <% for (let cartItem of cartItems) {%>
       <h1><%=cartItem.productID.title%></h1>
       <div>
@@ -30,13 +30,16 @@
         <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
       </form>
       <% } %>
-      <h1>Total cost of cart: <%= totalPrice %></h1>
+      <h1>Total cost: <%= totalPrice %></h1>
       <hr />
       <div>
-        <a href="checkout">Place order</a>
+        <form action="/order" method="POST">
+          <button type="submit" class="btn">Order</button>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        </form>
       </div>
       <% } else { %>
-      <div>No Cart Items</div>
+      <div>No Items</div>
       <%}%>
     </main>
   </body>
