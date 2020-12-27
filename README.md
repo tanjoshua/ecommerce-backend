@@ -5,7 +5,7 @@ This backend server was created as I was learning express.js, while taking the "
 
 As the main purpose of this project was for me to learn how to build a backend server using express, the server sends ugly html files directly to the browser. Front end design is not the main focus of this project. If I were to actually make an ecommerce application, I would use a frontend framework like React.js for the user interface.
 
-Note: api key for sendGrid has been redacted
+Note: api key for sendGrid and stripe have been redacted
 
 # What I learned
 
@@ -25,3 +25,4 @@ Note: api key for sendGrid has been redacted
 14. Throwing errors within controllers and catching them using middleware
 15. Storing image files on the server
 16. Pagination
+17. Handling payments with stripe

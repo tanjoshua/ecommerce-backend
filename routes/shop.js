@@ -24,8 +24,8 @@ router.get("/orders", checkLoggedIn, cartController.getOrders);
 // :productID as a dynamic parameter
 router.get("/products/:productID", productsController.getProductByID);
 
-// checkout payment
+// checkout payment - Note: to remove payments, post order instead of redirecting to checkout page
 router.get("/checkout", checkLoggedIn, cartController.getCheckout);
-router.get("/checkout", checkLoggedIn, cartController.postOrder);
+router.get("/checkout/success", checkLoggedIn, cartController.postOrder); // security vulnerability: orders can be placed w/o payment using this get request
 
 module.exports = router;
